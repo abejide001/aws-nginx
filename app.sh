@@ -38,7 +38,7 @@ function ssl_configuration {
   sudo add-apt-repository ppa:certbot/certbot -y
   sudo apt-get update
   sudo apt-get install certbot python-certbot-nginx -y
-  sudo certbot --nginx  -d storeman.ga -d www.storeman.ga -m ${email} --agree-tos --non-interactive
+  sudo certbot --nginx --expand -d storeman.ga -d www.storeman.ga -m ${email} --agree-tos --non-interactive
 }
 start_script='
   {
@@ -51,7 +51,7 @@ start_script='
     ]
   }
 '
-function keep_application_alive {
+function process_manager {
   sudo npm install pm2 -g
   sudo echo ${start_script} > ./start_script.config.json
   pm2 start start_script.config.json
@@ -62,4 +62,4 @@ install_application_dependencies
 build_webpack
 nginx_configuration
 ssl_configuration
-keep_application_alive
+process_manager
